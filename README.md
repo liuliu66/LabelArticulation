@@ -9,6 +9,8 @@ LabelArticulation is an interactive articulated object modeling tool that implem
 
 We also support rigid and articulated object 6D pose labeling from captured RGB-D images
 
+![](example.gif)
+
 ## Requirements
 - Numpy
 - [Open3D](http://www.open3d.org/)>=0.10.0
