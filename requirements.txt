@@ -1,0 +1,5 @@
+numpy
+open3d>=0.10.0
+opencv-python
+PyQt5
+pillow
