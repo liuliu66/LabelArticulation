@@ -16,7 +16,7 @@ import ctypes
 
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID()
 
-__appname__ = 'ArticulationAnnotator'
+__appname__ = 'ArticulationModeling'
 
 
 class AnnotationLabel(QLabel):
