@@ -1,0 +1,2 @@
+No.,name,X pos,Y pos,Z pos,X axis,Y axis,Z axis,
+0,revolute_top,-0.041569,0.000000,0.014243,0.000520,-0.999996,0.002666,

@@ -45,14 +45,13 @@ If you use LabelArticulation in your research to build dataset, please use the f
 
 ## Articulation object modeling
 
-After installation, please see [`TUTORIAL_MODELING.md`](TUTORIAL_MODELING.md)
+After installation, please see [`Tutorial (articulation modeling)`](examples/articulation_modeling/README.md)
 for brief tutorials on how to model the raw scanned point cloud into articulation.
 
 ## 6D pose annotation
 
-please see [`TUTORIAL_POSELABEL.md`](TUTORIAL_POSELABEL.md)
-for brief tutorials on how to label 6D pose of rigid and articulated objects.
-
+please see [`Tutorial (articulation pose label)`](examples/articulation_pose_label/README.md)
+for brief tutorials on how to label 6D pose of articulated objects.
 
 ## How to get RGB and depth image?
 We strongly recommend to follow [pyrs](https://github.com/Toraudonn/pyrs) repository.

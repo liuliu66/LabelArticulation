@@ -1,0 +1,9 @@
+{
+	"axis_max" : 0.0,
+	"axis_min" : 0.0,
+	"bounding_polygon" : null,
+	"class_name" : "SelectionPolygonVolume",
+	"orthogonal_axis" : "",
+	"version_major" : 1,
+	"version_minor" : 0
+}
