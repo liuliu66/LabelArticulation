@@ -19,7 +19,7 @@ class AxisAligner():
         self.view_param = None
         self.trans_initialized = None
 
-        self.axis_pcd = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.0001, origin=[0, 0, 0])
+        self.axis_pcd = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.01, origin=[0, 0, 0])
 
     def init_annotator(self, model_to_be_annotated, init_align_transformation=None):
         self.model_to_be_annotated = model_to_be_annotated

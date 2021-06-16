@@ -1,10 +1,13 @@
 import os
 import open3d as o3d
+import glob
 import copy
 import numpy as np
 import seaborn as sns
 
 # MESH_COLORS = [[0, 0.651, 0.929], [1, 0.706, 0]]
+
+from utils.util_func import Scaling
 
 
 class PartSegmentator():
@@ -21,9 +24,11 @@ class PartSegmentator():
     def reset(self, model_to_be_annotated):
         self.model_to_be_annotated = model_to_be_annotated
 
-    def begin_annotation(self, view_param):
+    def begin_annotation(self, view_param, align_transformation):
         self.view_param = view_param
-        self.view_param = self.crop_point_cloud(self.model_to_be_annotated, view_point=self.view_param)
+        self.view_param = self.crop_point_cloud(self.model_to_be_annotated,
+                                                view_point=self.view_param,
+                                                align_transformation=align_transformation)
 
         return self.view_param
 
@@ -67,7 +72,7 @@ class PartSegmentator():
 
         return view_point
 
-    def crop_point_cloud(self, pc, view_point):
+    def crop_point_cloud(self, pc, view_point, align_transformation):
         print("Demo for manual geometry cropping")
         print(
             "1) Press 'Y' twice to align geometry with negative direction of y-axis"
@@ -86,6 +91,16 @@ class PartSegmentator():
         view_point = visualizer_3d.get_view_control().convert_to_pinhole_camera_parameters()
         visualizer_3d.destroy_window()
         # o3d.visualization.draw_geometries_with_editing([pc])
+
+        part_pc_list = glob.glob(os.path.join(self.part_mesh_save_path, '*.ply'))
+        for part_pc_file in part_pc_list:
+            if '_align' not in part_pc_file:
+                aligned_part_pc = part_pc_file.split('.ply')[0] + '_align' + '.ply'
+                if aligned_part_pc not in part_pc_list:
+                    pc = o3d.io.read_point_cloud(part_pc_file)
+                    pc.transform(np.linalg.inv(align_transformation))
+                    pc = Scaling(pc, 1000.)
+                    o3d.io.write_point_cloud(aligned_part_pc, pc)
 
         return view_point
 

@@ -6,7 +6,7 @@ import json
 from math import *
 from PyQt5.QtCore import *
 
-from utils.util_func import transform_coordinates_3d
+from utils.util_func import transform_coordinates_3d, Scaling
 from utils.axis_aligner import AxisAligner
 from utils.part_segmentator import PartSegmentator
 from utils.joint_annotator import JointAnnotator
@@ -95,7 +95,7 @@ class Annotator():
             self.axis_aligner.save_align_transformation(self.temp_path)
             self.demo_img_axis_align, self.view_param = self.axis_aligner.generate_demo_img(view_point=self.view_param)
         elif stage == "part segmentation":
-            self.view_param = self.part_segmentator.begin_annotation(self.view_param)
+            self.view_param = self.part_segmentator.begin_annotation(self.view_param, self.align_transformation)
             self.demo_img_part_segmentation, self.view_param = self.part_segmentator.generate_demo_img(view_point=self.view_param)
         elif stage == "joint annotation":
             self.joint_transformation, self.view_param = self.joint_annotator.begin_annotation(self.view_param)
@@ -155,15 +155,16 @@ class Annotator():
             joint_info['upper'] = float(upper) if upper != '' else 0
             joint_info['type'] = joint_type
 
-            line_xyz = np.array([0., 0., 0.])
-            line_axis = np.array([0., 0., 1.])
+            start_point = np.array([0., 0., 0.])
+            end_point = np.array([0., 0., 1.])
+            line_points = np.stack([start_point, end_point])
 
-            end_point = [(line_xyz[i] + line_axis[i]) for i in range(len(line_xyz))]
-            line_points = np.stack([line_xyz, end_point])
             line_points = transform_coordinates_3d(line_points.T, self.joint_transformation).T
+            line_points = transform_coordinates_3d(line_points.T, np.linalg.inv(self.align_transformation)).T
 
             joint_info['xyz'] = line_points[0].tolist()
-            joint_info['rpy'] = line_points[1].tolist()
+            joint_info['rpy'] = (line_points[1] - line_points[0]).tolist()
+
             self.annotated_joint_infos.append(joint_info)
 
     def save_urdf(self, save_file_path):
